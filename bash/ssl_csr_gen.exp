@@ -1,0 +1,53 @@
+#!/bin/expect -f
+
+set force_conservative 0  ;# set to 1 to force conservative mode even if
+			  ;# script wasn't run conservatively originally
+if {$force_conservative} {
+	set send_slow {1 .1}
+	proc send {ignore arg} {
+		sleep .1
+		exp_send -s -- $arg
+	}
+}
+
+
+set timeout -1
+spawn openssl req -new -key ca.key -out ca.csr
+match_max 100000
+expect -exact "You are about to be asked to enter information that will be incorporated\r
+into your certificate request.\r
+What you are about to enter is what is called a Distinguished Name or a DN.\r
+There are quite a few fields but you can leave some blank\r
+For some fields there will be a default value,\r
+If you enter '.', the field will be left blank.\r
+-----\r
+Country Name (2 letter code) \[XX\]:"
+send -- "AU\r"
+expect -exact "AU\r
+State or Province Name (full name) \[\]:"
+send -- "QLD\r"
+expect -exact "QLD\r
+Locality Name (eg, city) \[Default City\]:"
+send -- "Brisbane\r"
+expect -exact "Brisbane\r
+Organization Name (eg, company) \[Default Company Ltd\]:"
+send -- "edcalderon.com\r"
+expect -exact "edcalderon.com\r
+Organizational Unit Name (eg, section) \[\]:"
+send -- "admin\r"
+expect -exact "admin\r
+Common Name (eg, your name or your server's hostname) \[\]:"
+send -- "localhost.localdomain\r"
+expect -exact "localhost.localdomain\r
+Email Address \[\]:"
+send -- "admin\@edcalderon.com\r"
+expect -exact "admin\@edcalderon.com\r
+\r
+Please enter the following 'extra' attributes\r
+to be sent with your certificate request\r
+A challenge password \[\]:"
+send -- "\r"
+expect -exact "\r
+An optional company name \[\]:"
+send -- "\r"
+expect eof
