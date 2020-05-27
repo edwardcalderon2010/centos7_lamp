@@ -75,4 +75,5 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", path: "bash/secure_admin.sh", privileged: "true"
   config.vm.provision "shell", path: "bash/configure_apache.sh", privileged: "true"
   config.vm.provision "shell", path: "bash/configure_mysql.sh", privileged: "true"
+  config.vm.provision "shell", path: "bash/install_wordpress.sh", privileged: "true"
 end
