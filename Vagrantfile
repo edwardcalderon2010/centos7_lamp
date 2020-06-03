@@ -42,7 +42,8 @@ Vagrant.configure("2") do |config|
   # your network.
   # config.vm.network "public_network"
   	#config.ssh.guest_port = 2223
-  	#config.ssh.private_key_path = File.join(File.expand_path(File.dirname(__FILE__)), "centos_mage_secure_key")
+  	#config.ssh.private_key_path = File.join(File.expand_path(File.dirname(__FILE__)), "data/c7_s2_private.ppk")
+  	#config.ssh.private_key_path = File.join(File.expand_path(File.dirname(__FILE__)), "vagrant_ssh.ppk")
     #config.ssh.private_key_path = File.expand_path("C:/Users/Edward Calderon/Downloads/vagrant_ssh.ppk", __FILE__)
   	#config.ssh.username = "adm_devops"
   # Share an additional folder to the guest VM. The first argument is
@@ -71,9 +72,17 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
+
+  # Stage 1
   config.vm.provision "shell", path: "bash/initial_boot.sh", privileged: "true"
+  
+  # Stage 2
+  config.vm.provision "shell", path: "bash/install_php.sh", privileged: "true"
+  config.vm.provision "shell", path: "bash/install_mysql.sh", privileged: "true"
   config.vm.provision "shell", path: "bash/secure_admin.sh", privileged: "true"
   config.vm.provision "shell", path: "bash/configure_apache.sh", privileged: "true"
+  
+  # Stage 3
   config.vm.provision "shell", path: "bash/configure_mysql.sh", privileged: "true"
   config.vm.provision "shell", path: "bash/install_wordpress.sh", privileged: "true"
 end
