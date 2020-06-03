@@ -5,9 +5,11 @@ echo "WordPress.01: Installing......................."
 cd /var/www/html/
 
 # Download and extract wordpress
-wget -c https://wordpress.org/latest.tar.gz
-tar -xzvf latest.tar.gz
-rm -rf latest.tar.gz
+#wget -c https://wordpress.org/latest.tar.gz
+wget --quiet https://en-au.wordpress.org/wordpress-5.4.1-en_AU.tar.gz
+mv wordpress-5.4.1-en_AU.tar.gz wp_install.tar.gz
+tar -xzf wp_install.tar.gz
+rm -rf wp_install.tar.gz
 
 # Insert the basic .htaccess file
 cp /vagrant/conf/.htaccess wordpress/
